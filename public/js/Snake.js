@@ -2,14 +2,80 @@ export default class Snake {
     constructor(scene) {
         this.scene = scene;
         this.lastMovetime = 0;
-        this.moveInterval = 200;
+        this.moveInterval = 150;
         this.tileSize = 16;
         this.direction = Phaser.Math.Vector2.DOWN;
         this.body = [];
         this.body.push(
-            this.scene.add.rectangle(this.scene.game.config.width / 2, this.scene.game.config.height / 2,
-                this.tileSize, this.tileSize, 0xff0000).setOrigin(0)
+            this.scene.add.rectangle(
+                this.scene.game.config.width / 2, 
+                this.scene.game.config.height / 2,
+                this.tileSize, 
+                this.tileSize, 
+                0xff0000)
+                .setOrigin(0)
         );
+
+        this.body.push(
+            this.scene.add.rectangle(
+                this.scene.game.config.width / 2, 
+                this.scene.game.config.height / 2,
+                this.tileSize, 
+                this.tileSize, 
+                0xffffff)
+                .setOrigin(0)
+        );
+
+        this.body.push(
+            this.scene.add.rectangle(
+                this.scene.game.config.width / 2, 
+                this.scene.game.config.height / 2,
+                this.tileSize, 
+                this.tileSize, 
+                0xffffff)
+                .setOrigin(0)
+        );
+
+        this.body.push(
+            this.scene.add.rectangle(
+                this.scene.game.config.width / 2, 
+                this.scene.game.config.height / 2,
+                this.tileSize, 
+                this.tileSize, 
+                0xffffff)
+                .setOrigin(0)
+        );
+
+        this.body.push(
+            this.scene.add.rectangle(
+                this.scene.game.config.width / 2, 
+                this.scene.game.config.height / 2,
+                this.tileSize, 
+                this.tileSize, 
+                0xffffff)
+                .setOrigin(0)
+        );
+
+        this.body.push(
+            this.scene.add.rectangle(
+                this.scene.game.config.width / 2, 
+                this.scene.game.config.height / 2,
+                this.tileSize, 
+                this.tileSize, 
+                0xffffff)
+                .setOrigin(0)
+        );
+
+        this.body.push(
+            this.scene.add.rectangle(
+                this.scene.game.config.width / 2, 
+                this.scene.game.config.height / 2,
+                this.tileSize, 
+                this.tileSize, 
+                0xffffff)
+                .setOrigin(0)
+        );
+
         this.apple = this.scene.add.rectangle(0, 0, this.tileSize, this.tileSize, 0x00ff00)
             .setOrigin(0);
 
@@ -69,6 +135,7 @@ export default class Snake {
         this.body[0].x = x;
         this.body[0].y = y;
 
+        // Death by going off the Screen
         if (this.body[0].x < 0 ||
             this.body[0].x >= this.scene.game.config.width ||
             this.body[0].y < 0 ||
@@ -77,6 +144,13 @@ export default class Snake {
             this.scene.scene.restart();
         }
 
-
+        // Death by eating own tail - headposition = any of our tail positions
+        let tail = this.body.slice(1);
+        if (
+            tail.some(s => s.x === this.body[0].x &&
+                s.y === this.body[0].y)
+        ) {
+            this.scene.scene.restart();
+        }
     }
 }
